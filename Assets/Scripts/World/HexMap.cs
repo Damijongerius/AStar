@@ -15,9 +15,14 @@ public class HexMap
     private readonly int sizeX;
     private readonly int sizeZ;
 
+    private readonly GameObject prefabHex;
+    private readonly Material[] mats;
+
     // // \\ // \\ // \\
-    public HexMap(int _sizeX, int _sizeZ)
+    public HexMap(int _sizeX, int _sizeZ, Material[] _mats, GameObject _prefabHex)
     {
+        this.mats = _mats;
+        this.prefabHex = _prefabHex;
         this.sizeX = _sizeX;
         this.sizeZ = _sizeZ;
 
@@ -28,8 +33,12 @@ public class HexMap
     // \\ // \\ // \\ //
 
     // // \\ // \\ // \\
-    private void GenerateMap()
+    private void GenerateMap(float[,] _map)
     {
+        foreach ()
+        {
+
+        }
     }
 
     // // \\ // \\ // \\
