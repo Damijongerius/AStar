@@ -11,9 +11,20 @@ public class WorldManager : MonoBehaviour
     public int sizeX;
     public int sizeY;
 
+    private static WorldManager instance;
+
     private List<Hexagon> world = new List<Hexagon>();
 
-    private void start()
+    private void Start()
     {
+        instance = this;
+        Debug.Log("start");
+        HexMap hm = new HexMap(sizeX,sizeY,mats,prefabHex);
+    }
+   
+
+    public static WorldManager GetInstance()
+    {
+        return instance;
     }
 }

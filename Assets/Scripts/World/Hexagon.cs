@@ -7,10 +7,23 @@ using UnityEngine;
 
 public class Hexagon : IAStarNode
 {
+    public Land land;
+
+    public GameObject hex;
+
+    public int x;
+    public int y;
     public IEnumerable<IAStarNode> Neighbours 
     {
         get;
-        set;
+    }
+
+    public Hexagon(Land land, int x, int y, IEnumerable<IAStarNode> neighbours)
+    {
+        this.land = land;
+        this.x = x;
+        this.y = y;
+        Neighbours = neighbours;
     }
 
     public float CostTo(IAStarNode neighbour)
