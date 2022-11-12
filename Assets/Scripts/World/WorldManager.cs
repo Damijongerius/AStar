@@ -13,12 +13,11 @@ public class WorldManager : MonoBehaviour
 
     private static WorldManager instance;
 
-    private List<Hexagon> world = new List<Hexagon>();
+    public List<Hexagon> world = new List<Hexagon>();
 
     private void Start()
     {
         instance = this;
-        Debug.Log("start");
         HexMap hm = new HexMap(sizeX,sizeY,mats,prefabHex);
     }
    

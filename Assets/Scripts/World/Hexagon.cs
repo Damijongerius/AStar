@@ -13,17 +13,18 @@ public class Hexagon : IAStarNode
 
     public int x;
     public int y;
+
     public IEnumerable<IAStarNode> Neighbours 
     {
         get;
+        set;
     }
 
-    public Hexagon(Land land, int x, int y, IEnumerable<IAStarNode> neighbours)
+    public Hexagon(Land land, int x, int y)
     {
         this.land = land;
         this.x = x;
         this.y = y;
-        Neighbours = neighbours;
     }
 
     public float CostTo(IAStarNode neighbour)

@@ -11,8 +11,6 @@ public class HexMap
     private readonly float xm = 1f;
     private readonly float zm = 0.74f;
 
-    private readonly int seed;
-
     private readonly int sizeX;
     private readonly int sizeZ;
 
@@ -27,7 +25,6 @@ public class HexMap
         this.sizeX = _sizeX;
         this.sizeZ = _sizeZ;
 
-        seed = GenerateSeed();
 
         float[,] map = GenerateNoise();
 
@@ -35,41 +32,71 @@ public class HexMap
     }
     // \\ // \\ // \\ //
 
+    //instantiate hexagons
     // // \\ // \\ // \\
     private void GenerateMap(float[,] _map)
     {
-        Land[,] lands = new Land[_map.GetLength(0), _map.GetLength(1)];
-        for(int x = 0; x < _map.GetLength(0); x++)
-        {
-            for(int z = 0; z < _map.GetLength(1); z++)
-            {
-                Vector3 pos = new Vector3(x * xm,0,z * zm);
+        Hexagon[,] hexagons = new Hexagon[_map.GetLength(0), _map.GetLength(1)];
 
-                if(z % 2 == 0)
+        for (int x = 0; x < _map.GetLength(0); x++)
+        {
+            for (int z = 0; z < _map.GetLength(1); z++)
+            {
+                Vector3 pos = new Vector3(x * xm, 0, z * zm);
+
+                if (z % 2 == 0)
                     pos = new Vector3(x * xm, 0, z * zm);
                 else
-                    pos = new Vector3((x * xm) +  0.5f, 0, z * zm);
+                    pos = new Vector3((x * xm) + 0.5f, 0, z * zm);
 
-                GameObject hex = UnityEngine.Object.Instantiate(prefabHex, pos, new Quaternion(0,0,0,0));
+                GameObject hex = UnityEngine.Object.Instantiate(prefabHex, pos, new Quaternion(0, 0, 0, 0));
 
                 Debug.Log(_map[x, z]);
                 hex.GetComponent<MeshRenderer>().material = GetLand();
 
+                Land land = Land.OCEAN;
+                hexagons[x, z] = new Hexagon(land, x, z);
+
+                //sub method 
+                // // \\ // \\
                 Material GetLand()
                 {
                     if (_map[x, z] > 0.7f)
                     {
+                        land = Land.RIDGE;
                         return mats[3];
                     }
 
-                    if (_map[x, z] > 0.6f)return mats[2];
+                    if (_map[x, z] > 0.6f)
+                    {
+                        land = Land.DESERT;
+                        return mats[2];
+                    }
 
-                    if (_map[x, z] > 0.45f)return mats[1];
+                    if (_map[x, z] > 0.45f)
+                    {
+                        land = Land.FOREST;
+                        return mats[1];
+                    }
 
-                    if (_map[x, z] > 0.26f)return mats[0];
+                    if (_map[x, z] > 0.30f)
+                    {
+                        land = Land.PLAINS;
+                        return mats[0];
+                    }
 
-                        return mats[4];
+                    land = Land.OCEAN;
+                    return mats[4];
                 }
+                // \\ // \\ //
+            }
+        }
+
+        for (int x = 0; x < _map.GetLength(0); x++)
+        {
+            for (int z = 0; z < _map.GetLength(1); z++)
+            {
+                
             }
         }
     }
@@ -84,25 +111,10 @@ public class HexMap
         {
             for(int z = 0; z < sizeZ; z++)
             {
-                map[x,z] = Mathf.PerlinNoise(x * 1f + xOffset, z * 1f + zOffset);
+                map[x,z] = Mathf.PerlinNoise(x * 2f + xOffset, z * 2f + zOffset);
             }
         }
         return map;
-    }
-    // \\ // \\ // \\ //
-
-    // // \\ // \\ // \\
-    private int GenerateSeed()
-    {
-        System.Random rnd = new System.Random();
-        return rnd.Next();
-    }
-    // \\ // \\ // \\ //
-
-    // // \\ // \\ // \\
-    public int GetSeed()
-    {
-        return seed;
     }
     // \\ // \\ // \\ //
 }
