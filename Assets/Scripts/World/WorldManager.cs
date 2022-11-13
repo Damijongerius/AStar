@@ -11,6 +11,8 @@ public class WorldManager : MonoBehaviour
     public int sizeX;
     public int sizeY;
 
+    public static bool running; 
+
     private static WorldManager instance;
 
     public Hexagon[,] world;

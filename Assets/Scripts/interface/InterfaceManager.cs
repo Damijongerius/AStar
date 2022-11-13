@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class InterfaceManager : MonoBehaviour
 {
-    public Camera MainCam;
+    public LayerMask layerMask;
 
-    void Update()
+    private WorldManager worldManager;
+
+    public delegate void OnMouseDown();
+    public OnMouseDown onMouseDown;
+
+    private TileSelector tileSelector;
+
+    private void Start()
     {
-        Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo;
-
-        if (Physics.Raycast(ray, out hitInfo))
+        tileSelector = new TileSelector(Camera.main,layerMask,this);
+        worldManager = WorldManager.GetInstance();
+    }
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
-            GameObject other = hitInfo.rigidbody.gameObject;
+            onMouseDown();
         }
+    }
 }
