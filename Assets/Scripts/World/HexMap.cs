@@ -53,9 +53,10 @@ public class HexMap
                 GameObject hex = UnityEngine.Object.Instantiate(prefabHex, pos, new Quaternion(0, 0, 0, 0));
 
                 hex.GetComponent<MeshRenderer>().material = GetLand();
+                hex.name = $"{x}-{z}";
 
                 Land land = Land.OCEAN;
-                hexagons[x, z] = new Hexagon(land, x, z);
+                hexagons[x, z] = new Hexagon(land, x, z, hex);
 
                 //sub method 
                 // // \\ // \\

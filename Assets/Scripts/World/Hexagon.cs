@@ -22,11 +22,12 @@ public class Hexagon : IAStarNode
 
     public List<Hexagon> HexaNeighbours;
 
-    public Hexagon(Land _land, int _x, int _z)
+    public Hexagon(Land _land, int _x, int _z, GameObject _hex)
     {
         this.land = _land;
         this.x = _x;
         this.z = _z;
+        this.hex = _hex;
     }
 
     public float CostTo(IAStarNode _neighbour)
