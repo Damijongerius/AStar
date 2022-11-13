@@ -13,7 +13,7 @@ public class WorldManager : MonoBehaviour
 
     private static WorldManager instance;
 
-    public List<Hexagon> world = new List<Hexagon>();
+    public Hexagon[,] world;
 
     private void Start()
     {

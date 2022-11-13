@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 public class HexMap
@@ -51,7 +52,6 @@ public class HexMap
 
                 GameObject hex = UnityEngine.Object.Instantiate(prefabHex, pos, new Quaternion(0, 0, 0, 0));
 
-                Debug.Log(_map[x, z]);
                 hex.GetComponent<MeshRenderer>().material = GetLand();
 
                 Land land = Land.OCEAN;
@@ -96,9 +96,79 @@ public class HexMap
         {
             for (int z = 0; z < _map.GetLength(1); z++)
             {
-                
+                List<Hexagon> neighbours = new List<Hexagon>();
+
+                if (z % 2 == 0)
+                {
+                    if (z + 1 < _map.GetLength(1))
+                    {
+                        if(hexagons[x, z + 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x, z + 1]);
+                    }
+                    if (x + 1 < _map.GetLength(0) && z + 1 < _map.GetLength(1))
+                    {
+                        if (hexagons[x + 1, z + 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x + 1, z + 1]);
+                    }
+                    if (x - 1 >= 0)
+                    {
+                        if (hexagons[x - 1 , z].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x - 1, z]);
+                    }
+                    if (x + 1 < _map.GetLength(0))
+                    {
+                        if (hexagons[x + 1, z].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x + 1, z]);
+                    }
+                    if (z - 1 >= 0)
+                    {
+                        if (hexagons[x, z - 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x, z - 1]);
+                    }
+                    if (x + 1 < _map.GetLength(0) && z - 1 >= 0)
+                    {
+                        if (hexagons[x + 1, z - 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x + 1, z - 1]);
+                    }
+                }
+                else
+                {
+                    if (x - 1 >= 0 && z + 1 < _map.GetLength(1))
+                    {
+                        if (hexagons[x - 1, z + 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x - 1, z + 1]);
+                    }
+                    if (z + 1 < _map.GetLength(1))
+                    {
+                        if (hexagons[x, z + 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x, z + 1]);
+                    }
+                    if (x - 1 >= 0)
+                    {
+                        if (hexagons[x - 1, z].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x - 1, z]);
+                    }
+                    if (x + 1 < _map.GetLength(0))
+                    {
+                        if (hexagons[x + 1, z].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x + 1, z]);
+                    }
+                    if (z - 1 >= 0)
+                    {
+                        if (hexagons[x, z - 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x, z - 1]);
+                    }
+                    if (x - 1 >= 0 && z - 1 >= 0)
+                    {
+                        if (hexagons[x - 1, z - 1].land != Land.OCEAN)
+                            neighbours.Add(hexagons[x - 1, z - 1]);
+                    }
+                }
+                hexagons[x,z].HexaNeighbours = neighbours;
             }
         }
+
+        WorldManager.GetInstance().world = hexagons;
     }
     // \\ // \\ // \\ //
 

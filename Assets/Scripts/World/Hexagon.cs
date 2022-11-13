@@ -12,31 +12,46 @@ public class Hexagon : IAStarNode
     public GameObject hex;
 
     public int x;
-    public int y;
+    public int z;
 
-    public IEnumerable<IAStarNode> Neighbours 
+    //this may be kinda cheating but as the goal wont change its possible
+    private static int xGoal;
+    private static int zGoal;
+
+    public IEnumerable<IAStarNode> Neighbours => HexaNeighbours;
+
+    public List<Hexagon> HexaNeighbours;
+
+    public Hexagon(Land _land, int _x, int _z)
     {
-        get;
-        set;
+        this.land = _land;
+        this.x = _x;
+        this.z = _z;
     }
 
-    public Hexagon(Land land, int x, int y)
+    public float CostTo(IAStarNode _neighbour)
     {
-        this.land = land;
-        this.x = x;
-        this.y = y;
+        foreach (Hexagon neighbor2 in HexaNeighbours)
+        {
+            if (neighbor2 == _neighbour)
+            {
+                return (float)neighbor2.land;
+            }
+        }
+        return 0;
     }
 
-    public float CostTo(IAStarNode neighbour)
+    public float EstimatedCostTo(IAStarNode _goal)
     {
-        //foreach 
-        throw new System.NotImplementedException();
+        int xcost = xGoal - x;
+        int zcost = zGoal - z;
+        return xcost + xcost >> 31 ^ xcost >> 31 + zcost + zcost >> 31 ^ zcost >> 31;
     }
 
-    public float EstimatedCostTo(IAStarNode goal)
+    public static void SetEnd(int _x, int _z)
     {
-        //calculate distance to goal
-        throw new System.NotImplementedException();
+        xGoal = _x;
+        zGoal = _z;
     }
 }
 
