@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.WSA;
 
 public class WorldManager : MonoBehaviour
 {
@@ -17,15 +18,28 @@ public class WorldManager : MonoBehaviour
 
     public Hexagon[,] world;
 
+    private List<Hexagon> path = new List<Hexagon>();
+
     private void Start()
     {
         instance = this;
-        HexMap hm = new HexMap(sizeX,sizeY,mats,prefabHex);
+        Generate();
+    }
+
+    public void Generate()
+    {
+        if(world != null)
+        {
+            foreach(Hexagon hexa in world)
+            {
+                Destroy(hexa.hex);         
+            }
+        }
+        HexMap hm = new HexMap(sizeX, sizeY, mats, prefabHex);
     }
 
     public void CalculatePath(GameObject _start, GameObject _end)
     {
-        Debug.Log("calcpath");
         Hexagon start = null;
         Hexagon end = null;
 
@@ -40,17 +54,21 @@ public class WorldManager : MonoBehaviour
                 end = hexa;
             }
         }
-        Debug.Log(start + "-" + end);
         IList<IAStarNode> returnd = AStar.GetPath(start, end);
 
-        Debug.Log(returnd);
+        foreach(Hexagon hexa in path)
+        {
+            hexa.hex.layer = 0;
+        }
+        path.Clear();
         foreach (IAStarNode node in returnd)
         {
             foreach(Hexagon hexa in world)
             {
                 if(hexa == node)
                 {
-                    if(hexa.hex.layer == 0)
+                    path.Add(hexa);
+                    if (hexa.hex.layer == 0)
                         hexa.hex.layer = 8;
                 }
             }

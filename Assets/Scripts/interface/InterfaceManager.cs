@@ -7,7 +7,7 @@ public class InterfaceManager : MonoBehaviour
 {
     public LayerMask layerMask;
 
-    private WorldManager worldManager;
+    private WorldManager worldM;
 
     public delegate void OnMouseDown();
     public OnMouseDown onMouseDown;
@@ -23,19 +23,19 @@ public class InterfaceManager : MonoBehaviour
     {
         instance = this;
         tileSelector = new TileSelector(Camera.main,layerMask,this);
-        worldManager = WorldManager.GetInstance();
+        worldM = WorldManager.GetInstance();
     }
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             onMouseDown();
+            onEnter();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("enter");
-            onEnter();
+            WorldManager.GetInstance().Generate();
         }
     }
 
