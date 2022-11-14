@@ -55,7 +55,7 @@ public class HexMap
                 Land land = Land.OCEAN;
                 hex.GetComponent<MeshRenderer>().material = GetLand();
                 hex.name = $"{x}-{z}";
-                hex.AddComponent<BoxCollider>();
+                hex.AddComponent<MeshCollider>();
 
                 if(land == Land.OCEAN)
                 {
@@ -104,7 +104,7 @@ public class HexMap
             {
                 List<Hexagon> neighbours = new List<Hexagon>();
 
-                if (z % 2 == 0)
+                if (z % 2 == 1)
                 {
                     if (z + 1 < _map.GetLength(1))
                     {
