@@ -58,7 +58,8 @@ public class WorldManager : MonoBehaviour
 
         foreach(Hexagon hexa in path)
         {
-            hexa.hex.layer = 0;
+            if(hexa.hex != null)
+                hexa.hex.layer = 0;
         }
         path.Clear();
         foreach (IAStarNode node in returnd)
